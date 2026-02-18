@@ -1,0 +1,12 @@
+;	STMicroelectronics Workspace file
+
+[Version]
+Keyword=ST7Workspace-V0.7
+
+[Project0]
+Filename=stm8s103_led_tim4.stp
+Dependencies=
+[Options]
+ActiveProject=stm8s103_led_tim4
+ActiveConfig=Debug
+AddSortedElements=1
