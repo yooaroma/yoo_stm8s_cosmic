@@ -42,7 +42,7 @@
 /* Private functions ---------------------------------------------------------*/
 /* Public functions ----------------------------------------------------------*/
 
-#ifdef _COSMIC_1
+#ifdef _COSMIC_
 /**
  * @brief Dummy Interrupt routine
  * @par Parameters:
