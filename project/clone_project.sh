@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 1. 사용자 입력 (디렉토리명 설정)
-SRC_DIR="25_stm8s103_debug"
-DST_DIR="05_stm8s103_led_tim4"
+SRC_DIR="19_stm8s103_adc_pwm"
+DST_DIR="26_stm8s103_adc_joystick"
 
 # 2. 프로젝트 이름 자동 추출 (앞의 '숫자_' 제거)
 OLD_NAME="${SRC_DIR#*_}"
@@ -17,28 +17,41 @@ echo "===================================================="
 # 3. 대상 디렉토리 및 src 폴더 생성
 mkdir -p "$DST_DIR/src"
 
-# 4. 프로젝트 설정 파일 처리 (이름 변경 + 텍스트 치환)
+# 4. 프로젝트 설정 파일 처리 (.dep, .stp, .stw, .wed)
 EXTS=("dep" "stp" "stw" "wed")
 for EXT in "${EXTS[@]}"; do
     SRC_FILE="$SRC_DIR/$OLD_NAME.$EXT"
     DST_FILE="$DST_DIR/$NEW_NAME.$EXT"
 
     if [ -f "$SRC_FILE" ]; then
-        echo "[FILE] Processing Project File: $OLD_NAME.$EXT"
+        echo "[FILE] Processing Project File: $OLD_NAME.$EXT -> $NEW_NAME.$EXT"
         sed "s|$OLD_NAME|$NEW_NAME|g" "$SRC_FILE" > "$DST_FILE"
     fi
 done
 
-# 5. 인터럽트 벡터 파일 처리 (단순 카피)
-SRC_C_FILE="$SRC_DIR/src/stm8_interrupt_vector.c"
-DST_C_FILE="$DST_DIR/src/stm8_interrupt_vector.c"
+# 5. 소스 파일 및 메인 파일 처리 (src 폴더)
+echo "[SRC ] Processing Source Files..."
 
-if [ -f "$SRC_C_FILE" ]; then
-    echo "[SRC ] Simple Copying: stm8_interrupt_vector.c"
-    # 치환 없이 원본 파일 그대로 복사합니다.
-    cp "$SRC_C_FILE" "$DST_C_FILE"
+if [ -d "$SRC_DIR/src" ]; then
+    # src 폴더 내의 모든 파일을 순회하며 복사 및 이름 변경
+    for FILE_PATH in "$SRC_DIR/src"/*; do
+        FILENAME=$(basename "$FILE_PATH")
+        
+        # 파일명이 OLD_NAME_main.c 인 경우 NEW_NAME_main.c 로 변경
+        if [ "$FILENAME" == "${OLD_NAME}_main.c" ]; then
+            TARGET_FILENAME="${NEW_NAME}_main.c"
+            echo "  -> Renaming Main: $FILENAME -> $TARGET_FILENAME"
+            # 파일 내용 내의 프로젝트 이름도 함께 치환하여 저장
+            sed "s|$OLD_NAME|$NEW_NAME|g" "$FILE_PATH" > "$DST_DIR/src/$TARGET_FILENAME"
+        else
+            # 그 외의 파일(interrupt_vector.c 등)은 그대로 복사 (필요시 내부 텍스트만 치환)
+            echo "  -> Copying: $FILENAME"
+            # 내부 텍스트에 프로젝트 이름이 포함되어 있을 수 있으므로 sed 처리 권장
+            sed "s|$OLD_NAME|$NEW_NAME|g" "$FILE_PATH" > "$DST_DIR/src/$FILENAME"
+        fi
+    done
 else
-    echo "⚠️  Warning: $SRC_C_FILE 파일을 찾을 수 없습니다."
+    echo "⚠️  Warning: $SRC_DIR/src 디렉토리를 찾을 수 없습니다."
 fi
 
 echo "===================================================="
