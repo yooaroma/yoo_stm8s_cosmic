@@ -123,17 +123,18 @@ ResourceID=0
 
 [WorkState_v1_2.DockState.Bar-2]
 BarID=59422
-Bars=10
+Bars=11
 Bar#0=0
 Bar#1=0
-Bar#2=5707
-Bar#3=5706
-Bar#4=5710
-Bar#5=5704
-Bar#6=5721
-Bar#7=0
-Bar#8=32769
-Bar#9=0
+Bar#2=0
+Bar#3=5707
+Bar#4=5706
+Bar#5=5710
+Bar#6=5704
+Bar#7=5721
+Bar#8=0
+Bar#9=32769
+Bar#10=0
 Style=0
 ExStyle=0
 PrevFloating=False
@@ -1243,7 +1244,7 @@ ptn_Child1=MainFrame
 ptn_Child2=ChildFrames
 
 [WorkState_v1_2.Frames.MainFrame]
-WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPNGGAAAAABKAAAAAANGLAAAAAKJDAAAAA
-Title=ST Visual Develop - stm8s105_debug.stw
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPOCGAAAAACPAAAAAAOCLAAAAALODAAAAA
+Title=ST Visual Develop - stm8s105k4_debug.stw
 
 [WorkState_v1_2.Frames.ChildFrames]
